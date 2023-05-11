@@ -44,7 +44,27 @@ const domainFilter = () => {
 
       tableHTML += "";
       data.forEach((shop) => {
-        tableHTML += "<tr>";
+       tableHTML += "<tr>";
+        var startTime = shop.start;
+        var endTime = shop.end;
+
+        var currentTime = new Date().toLocaleTimeString("en-US", {
+          timeZone: "Asia/Kolkata",
+        });
+        function convertToMinutes(time) {
+          var splitTime = time.split(":");
+          return parseInt(splitTime[0]) * 60 + parseInt(splitTime[1]);
+        }
+
+        var startMinutes = convertToMinutes(startTime);
+        var endMinutes = convertToMinutes(endTime);
+        var currentMinutes = convertToMinutes(currentTime);
+        if (currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+          // Add a class to the shop-name div to change its background color
+          tableHTML += "<th style='color : green'>" + "OPEN" + "</th>";
+        }else{
+          tableHTML += "<th style='color : red'>" + "CLOSE" + "</th>";
+        }
         if (shop.photo) {
           tableHTML += "<td>" + `<img style="width : 200px; max-height : 200px;" src="./uploads/${shop.photo}" alt=''>` + "</td>";
         }
